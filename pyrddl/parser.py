@@ -510,7 +510,7 @@ class RDDLParser(object):
         p[0] = p[1]
 
     def p_expr(self, p):
-        '''expr : ENUM_VAL
+        '''expr : penum_expr
                 | pvar_expr
                 | group_expr
                 | function_expr
@@ -522,6 +522,10 @@ class RDDLParser(object):
                 | control_expr
                 | randomvar_expr'''
         p[0] = Expression(p[1])
+
+    def p_penum_expr(self, p):
+        '''penum_expr : ENUM_VAL'''
+        p[0] = ('penum_expr', (p[1], None))
 
     def p_pvar_expr(self, p):
         '''pvar_expr : IDENT LPAREN term_list RPAREN

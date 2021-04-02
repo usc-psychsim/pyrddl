@@ -44,6 +44,8 @@ class Expression(object):
             return ('constant', str(type(self._expr[1])))
         elif self._expr[0] == 'pvar_expr':
             return ('pvar', self._expr[1][0])
+        elif self._expr[0] == 'penum_expr':
+            return ('penum', self._expr[1][0])
         elif self._expr[0] == 'randomvar':
             return ('randomvar', self._expr[1][0])
         elif self._expr[0] in ['+', '-', '*', '/']:
@@ -79,6 +81,8 @@ class Expression(object):
         if self._expr[0] in ['number', 'boolean']:
             return self._expr[1]
         elif self._expr[0] == 'pvar_expr':
+            return self._expr[1]
+        elif self._expr[0] == 'penum_expr':
             return self._expr[1]
         elif self._expr[0] == 'randomvar':
             return self._expr[1][1]
@@ -145,7 +149,7 @@ class Expression(object):
         if isinstance(expr, tuple):
             return '{}{}'.format(ident, str(expr))
 
-        if expr.etype[0] in ['pvar', 'constant']:
+        if expr.etype[0] in ['pvar', 'constant', 'penum']:
             return '{}Expression(etype={}, args={})'.format(ident, expr.etype, expr.args)
 
         if not isinstance(expr, Expression):
