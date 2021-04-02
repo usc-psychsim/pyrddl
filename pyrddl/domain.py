@@ -156,6 +156,11 @@ class Domain(object):
         return { str(pvar): pvar for pvar in self.pvariables if pvar.is_intermediate_fluent() }
 
     @property
+    def observ_fluents(self) -> Dict[str, PVariable]:
+        '''Returns observ-fluent pvariables.'''
+        return {str(pvar): pvar for pvar in self.pvariables if pvar.is_observ_fluent()}
+
+    @property
     def intermediate_cpfs(self) -> List[CPF]:
         '''Returns list of intermediate-fluent CPFs in level order.'''
         _, cpfs = self.cpfs
@@ -179,6 +184,14 @@ class Domain(object):
                 state_cpfs.append(cpf)
         state_cpfs = sorted(state_cpfs, key=lambda cpf: cpf.name)
         return state_cpfs
+
+    @property
+    def observ_cpfs(self) -> List[CPF]:
+        '''Returns list of observ-fluent CPFs.'''
+        _, cpfs = self.cpfs
+        observ_cpfs = [cpf for cpf in cpfs if cpf.name in self.observ_fluents]
+        observ_cpfs = sorted(observ_cpfs, key=lambda cpf: cpf.name)
+        return observ_cpfs
 
     @property
     def non_fluent_ordering(self) -> List[str]:
@@ -217,6 +230,15 @@ class Domain(object):
         interm_fluents = self.intermediate_fluents.values()
         key = lambda pvar: (pvar.level, pvar.name)
         return [str(pvar) for pvar in sorted(interm_fluents, key=key)]
+
+    @property
+    def observ_fluent_ordering(self) -> List[str]:
+        '''The list of observ-fluent names in canonical order.
+
+        Returns:
+            List[str]: A list of fluent names.
+        '''
+        return sorted(self.observ_fluents)
 
     @property
     def next_state_fluent_ordering(self) -> List[str]:

@@ -353,7 +353,8 @@ class RDDLParser(object):
         '''pvar_def : nonfluent_def
                     | statefluent_def
                     | actionfluent_def
-                    | intermfluent_def'''
+                    | intermfluent_def
+                    | observfluent_def'''
         p[0] = p[1]
 
     def p_nonfluent_def(self, p):
@@ -387,6 +388,14 @@ class RDDLParser(object):
             p[0] = PVariable(name=p[1], fluent_type='interm-fluent', range_type=p[9], param_types=p[3], level=p[13])
         else:
             p[0] = PVariable(name=p[1], fluent_type='interm-fluent', range_type=p[6], level=p[10])
+
+    def p_observfluent_def(self, p):
+        '''observfluent_def : IDENT LPAREN param_list RPAREN COLON LCURLY OBSERVATION COMMA type_spec RCURLY SEMI
+                            | IDENT COLON LCURLY OBSERVATION COMMA type_spec RCURLY SEMI'''
+        if len(p) == 13:
+            p[0] = PVariable(name=p[1], fluent_type='observ-fluent', range_type=p[9], param_types=p[3])
+        else:
+            p[0] = PVariable(name=p[1], fluent_type='observ-fluent', range_type=p[6])
 
     def p_cpf_section(self, p):
         '''cpf_section : cpf_header LCURLY cpf_list RCURLY SEMI'''
