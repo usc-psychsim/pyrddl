@@ -510,7 +510,8 @@ class RDDLParser(object):
         p[0] = p[1]
 
     def p_expr(self, p):
-        '''expr : pvar_expr
+        '''expr : ENUM_VAL
+                | pvar_expr
                 | group_expr
                 | function_expr
                 | relational_expr
