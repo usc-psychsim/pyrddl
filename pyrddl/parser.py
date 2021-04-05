@@ -525,7 +525,7 @@ class RDDLParser(object):
 
     def p_penum_expr(self, p):
         '''penum_expr : ENUM_VAL'''
-        p[0] = ('penum_expr', (p[1], None))
+        p[0] = ('penum_expr', p[1])
 
     def p_pvar_expr(self, p):
         '''pvar_expr : IDENT LPAREN term_list RPAREN
