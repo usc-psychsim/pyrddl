@@ -27,7 +27,6 @@ from pyrddl.pvariable import PVariable
 from pyrddl.expr import Expression
 from pyrddl.cpf import CPF
 
-
 alpha = r'[A-Za-z]'
 digit = r'[0-9]'
 idenfifier = r'(' + alpha + r')((' + alpha + r'|' + digit + r'|\-|\_)*(' + alpha + r'|' + digit + r'))?(\')?'
@@ -696,8 +695,9 @@ class RDDLParser(object):
         '''range_const : bool_type
                        | double_type
                        | int_type
+                       | penum_expr
                        | IDENT'''
-        p[0] = p[1]
+        p[0] = p[1][1] if isinstance(p[1], tuple) else p[1]
 
     def p_bool_type(self, p):
         '''bool_type : TRUE
