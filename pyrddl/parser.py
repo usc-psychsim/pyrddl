@@ -593,9 +593,15 @@ class RDDLParser(object):
         '''aggregation_expr : IDENT UNDERSCORE LCURLY typed_var_list RCURLY expr %prec AGG_OPER'''
         p[0] = (p[1], (*p[4], p[6]))
 
+    def p_case_expr(self, p):
+        '''case_expr : penum_expr
+                     | pvar_expr
+                     | numerical_expr'''
+        p[0] = Expression(p[1])
+
     def p_control_expr(self, p):
         '''control_expr : IF LPAREN expr RPAREN THEN expr ELSE expr %prec IF
-                        | SWITCH LPAREN term RPAREN LCURLY case_list RCURLY'''
+                        | SWITCH LPAREN case_expr RPAREN LCURLY case_list RCURLY'''
         if len(p) == 9:
             p[0] = (p[1], (p[3], p[6], p[8]))
         elif len(p) == 8:
@@ -653,7 +659,7 @@ class RDDLParser(object):
             p[0] = [p[1]]
 
     def p_case_def(self, p):
-        '''case_def : CASE term COLON expr
+        '''case_def : CASE case_expr COLON expr
                     | DEFAULT COLON expr'''
         if len(p) == 5:
             p[0] = ('case', (p[2], p[4]))
