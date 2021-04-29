@@ -154,6 +154,9 @@ class Expression(object):
         '''Returns string representing the expression.'''
         ident = ' ' * level * 4
 
+        if isinstance(expr, str):
+            return expr
+
         if isinstance(expr, tuple):
             return '{}{}'.format(ident, str(expr))
 
