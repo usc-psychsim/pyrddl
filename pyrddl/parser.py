@@ -510,6 +510,7 @@ class RDDLParser(object):
 
     def p_expr(self, p):
         '''expr : penum_expr
+                | param_expr
                 | pvar_expr
                 | group_expr
                 | function_expr
@@ -525,6 +526,10 @@ class RDDLParser(object):
     def p_penum_expr(self, p):
         '''penum_expr : ENUM_VAL'''
         p[0] = ('penum_expr', p[1])
+
+    def p_param_expr(self, p):
+        '''param_expr : VAR'''
+        p[0] = ('param_expr', p[1])
 
     def p_pvar_expr(self, p):
         '''pvar_expr : IDENT LPAREN term_list RPAREN

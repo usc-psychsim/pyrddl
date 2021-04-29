@@ -46,6 +46,8 @@ class Expression(object):
             return ('pvar', self._expr[1][0])
         elif self._expr[0] == 'penum_expr':
             return ('penum', self._expr[1][0])
+        elif self._expr[0] == 'param_expr':
+            return ('param', self._expr[1])
         elif self._expr[0] == 'randomvar':
             return ('randomvar', self._expr[1][0])
         elif self._expr[0] in ['+', '-', '*', '/']:
@@ -85,6 +87,8 @@ class Expression(object):
         elif self._expr[0] == 'pvar_expr':
             return self._expr[1]
         elif self._expr[0] == 'penum_expr':
+            return self._expr[1]
+        elif self._expr[0] == 'param_expr':
             return self._expr[1]
         elif self._expr[0] == 'randomvar':
             return self._expr[1][1]
