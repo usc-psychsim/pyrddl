@@ -391,7 +391,7 @@ class RDDLParser(object):
     def p_observfluent_def(self, p):
         '''observfluent_def : IDENT LPAREN param_list RPAREN COLON LCURLY OBSERVATION COMMA type_spec RCURLY SEMI
                             | IDENT COLON LCURLY OBSERVATION COMMA type_spec RCURLY SEMI'''
-        if len(p) == 13:
+        if len(p) == 12:
             p[0] = PVariable(name=p[1], fluent_type='observ-fluent', range_type=p[9], param_types=p[3])
         else:
             p[0] = PVariable(name=p[1], fluent_type='observ-fluent', range_type=p[6])
