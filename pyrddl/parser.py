@@ -506,7 +506,7 @@ class RDDLParser(object):
         '''term : VAR
                 | ENUM_VAL
                 | pvar_expr'''
-        p[0] = p[1]
+        p[0] = Expression(p[1]) if isinstance(p[1], tuple) and p[1][0] == 'pvar_expr' else p[1]
 
     def p_expr(self, p):
         '''expr : penum_expr
